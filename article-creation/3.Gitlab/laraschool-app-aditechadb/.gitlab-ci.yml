@@ -1,0 +1,25 @@
+stages:
+  - deploy
+
+deploy-laraschool:
+  image: registry.adinusa.id/btacademy/docker:latest
+  services:
+    - registry.adinusa.id/btacademy/docker:dind
+  stage: deploy
+  environment: staging
+  variables:
+    CONTAINER_IMAGE: registry.adinusa.id/laraschool/laraschool-aditechadb
+  script:
+    - 'echo "pyR\$2YM#AB5V" | docker login https://registry.adinusa.id/harbor/projects -u btacademy --password-stdin'
+    - 'ls'
+    - 'docker images'
+    - 'docker build -t $CONTAINER_IMAGE:1.0 .'
+    - 'docker push $CONTAINER_IMAGE:1.0'
+    - 'docker-compose down --rmi all'
+    - 'docker-compose up -d'
+    - 'docker images'
+    - 'docker ps -a'
+  only:
+    - main
+  tags:
+    - shell

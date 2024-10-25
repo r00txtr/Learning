@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+  php-apache:
+    image: registry.adinusa.id/laraschool/laraschool-aditechadb:1.0 
+    container_name: perpus-aditechadb
+    restart: on-failure
+    networks:
+      - network
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    #command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    container_name: database
+    #tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rahasia
+      MYSQL_DATABASE: laravel
+      MYSQL_PASSWORD: admin
+      MYSQL_USER: admin
+    volumes:
+      - sql:/var/lib/mysql
+    networks:
+      - network
+
+        #  nginx:
+        #    image: nginx:alpine
+        #    container_name: webserver
+        #    working_dir: /var/www
+        #    ports:
+        #      - "8000:80"
+        #    volumes:
+        #      - ./:/var/www
+        #      - ./challenge2:/etc/nginx/conf.d
+        #    networks:
+        #      - perpus
+
+        #  php:
+        #    image: img-perpus-aditechadb:latest
+        #    #restart: unless-stopped
+        #    container_name: perpus-aditechadb
+        #    working_dir: /var/www/html
+        #    volumes:
+        #      - ./:/var/www/html
+        #    networks:
+        #      - perpus
+        #    depends_on:
+        #      - db
+        #      - nginx
+
+networks:
+  network:
+    driver: bridge
+
+
+volumes:
+  sql:
+    driver: local
