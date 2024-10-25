@@ -45,7 +45,7 @@ sudo apt update && sudo apt upgrade -y
 Jenkins requires Java to run. Install Java by running:
 
 ```bash
-sudo apt install openjdk-11-jdk -y
+sudo apt install fontconfig openjdk-17-jdk -y
 ```
 
 #### Step 3: Add Jenkins Repository
@@ -53,15 +53,15 @@ sudo apt install openjdk-11-jdk -y
 To install Jenkins, you need to add its repository and GPG key:
 
 ```bash
-curl -fsSL https://pkg.jenkins.io/debian/jenkins.io-2023.key | sudo tee \
-  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 ```
 
 Next, add the repository to your sources list:
 
 ```bash
-echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-  https://pkg.jenkins.io/debian binary/ | sudo tee \
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 ```
 
@@ -125,7 +125,7 @@ A Jenkins agent allows Jenkins to delegate jobs to other machines, which can be 
 Since Jenkins agents require Java to run, start by installing Java on the agent machine:
 
 ```bash
-sudo apt install openjdk-11-jdk -y
+sudo apt install openjdk-17-jdk -y
 ```
 
 #### Step 2: Configure the Agent in Jenkins
